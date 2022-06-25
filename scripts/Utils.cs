@@ -7,9 +7,18 @@ public static class Utils
     {
         foreach (var child in parent.GetChildren())
         {
-            if (child is TNodeType childNode && childNode.Name == name)
+            if (!(child is Node childNode))
             {
-                return childNode;
+                continue;
+            }
+            if (child is TNodeType childTNode && childTNode.Name == name)
+            {
+                return childTNode;
+            }
+            var namedChild = childNode.GetChildNodeByName<TNodeType>(name);
+            if (namedChild != null)
+            {
+                return namedChild;
             }
         }
         return null;
