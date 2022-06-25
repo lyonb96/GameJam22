@@ -8,12 +8,16 @@ public class ShipCamera : Camera2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		TrackingShip = GetTree().Root.GetChildNodeByName<Ship>("ShipNode2D");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
-		Position = TrackingShip.PhysicsPosition;
+		if (TrackingShip is null)
+		{
+			TrackingShip = WorldScript.Instance.PlayerShip;
+			return;
+		}
+		Position = TrackingShip.Position;
 	}
 }

@@ -33,8 +33,5 @@ shape = SubResource( 1 )
 points = PoolVector2Array( 0, 125, 0, -125 )
 width = 20.0
 
-[node name="Part2" parent="." instance=ExtResource( 5 )]
-position = Vector2( 111, 69 )
-
 [node name="Part" parent="." instance=ExtResource( 5 )]
-position = Vector2( 64, 162 )
+position = Vector2( 75, 107 )

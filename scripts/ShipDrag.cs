@@ -76,9 +76,13 @@ public class ShipDrag : RigidBody2D
 	
 	private void _on_ShipPhysics_body_entered(RigidBody2D body)
 	{
-		if(body.GetParent().GetName() != null && body.GetParent().GetName().Equals("ShipNode2D"))
+		if (body is ShipPhysics shipPhys)
 		{
-			GD.Print(body.GetParent().GetName());
+			GD.Print("Hit something with ship physics on it");
+		}
+		if(body.GetParent().Name != null && body.GetParent().Name.Equals("ShipNode2D"))
+		{
+			GD.Print(body.GetParent().Name);
 		}
 	}
 }

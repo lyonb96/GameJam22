@@ -1,25 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://images/ShipCore.png" type="Texture" id=1]
-[ext_resource path="res://scripts/Ship.cs" type="Script" id=2]
-[ext_resource path="res://scripts/ShipDrag.cs" type="Script" id=3]
+[ext_resource path="res://scripts/ArmorBlock.cs" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
 [node name="Part" type="Node2D"]
-script = ExtResource( 2 )
 
 [node name="ShipPhysics" type="RigidBody2D" parent="."]
 input_pickable = true
 contacts_reported = 5
 contact_monitor = true
-script = ExtResource( 3 )
+script = ExtResource( 2 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShipPhysics"]
 shape = SubResource( 1 )
 
-[node name="Sprite" type="Sprite" parent="ShipPhysics"]
+[node name="Sprite" type="Sprite" parent="ShipPhysics/CollisionShape2D"]
 texture = ExtResource( 1 )
 
 [connection signal="body_entered" from="ShipPhysics" to="ShipPhysics" method="_on_ShipPhysics_body_entered"]
