@@ -10,6 +10,7 @@ extents = Vector2( 16, 16 )
 
 [node name="ShipPhysics" type="RigidBody2D" parent="."]
 input_pickable = true
+mass = 0.1
 contacts_reported = 5
 contact_monitor = true
 script = ExtResource( 2 )
@@ -19,5 +20,3 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="ShipPhysics/CollisionShape2D"]
 texture = ExtResource( 1 )
-
-[connection signal="body_entered" from="ShipPhysics" to="ShipPhysics" method="_on_ShipPhysics_body_entered"]
