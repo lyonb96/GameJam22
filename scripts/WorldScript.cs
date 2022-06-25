@@ -5,6 +5,9 @@ public class WorldScript : Node2D
 {
     public bool BuildMode { get; private set; }
 
+    public delegate void OnBuildModeChangedDelegate(bool mode);
+    public event OnBuildModeChangedDelegate OnBuildModeChanged;
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -18,6 +21,7 @@ public class WorldScript : Node2D
 		if (Input.IsActionJustPressed("SwitchMode"))
 		{
 			BuildMode = !BuildMode;
+            OnBuildModeChanged?.Invoke(BuildMode);
 		}
     }
 }

@@ -18,7 +18,3 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="ShipPhysics"]
 texture = ExtResource( 1 )
-
-[node name="Camera2D" type="Camera2D" parent="ShipPhysics"]
-current = true
-smoothing_enabled = true
