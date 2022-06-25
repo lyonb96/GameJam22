@@ -23,6 +23,8 @@ public class Ship : ShipBlock
 
 	private ShipBlock CurrentDraggedBlock { get; set; }
 
+	public PackedScene Projectile { get; set; }
+
 	public Ship()
 		: base(100.0F)
 	{
@@ -32,6 +34,7 @@ public class Ship : ShipBlock
 	public override void _Ready()
 	{
 		WorldScript = GetTree().Root.GetChildNodeByName<WorldScript>("Scene");
+		Projectile = (PackedScene)ResourceLoader.Load("res://scenes/Projectile.tscn");
 		WorldScript.PlayerShip = this;
 		WorldScript.OnBuildModeChanged += OnBuildModeChanged;
 		Physics = this.GetChildNodeByName<ShipPhysics>("ShipPhysics");
@@ -86,6 +89,16 @@ public class Ship : ShipBlock
 			var dirToMouse = localMouse.Normalized();
 			var mouseRotation = Mathf.Rad2Deg(dirToMouse.Angle());
 			DesiredRotation += Utils.SmallestMagnitude(mouseRotation, mouseRotation * delta * RotationRate);
+
+			//Handle Firing
+			if (Input.IsActionJustPressed("Click"))
+			{
+				var newProjectile = Projectile.Instance() as Projectile;
+				newProjectile.Rotation = Rotation;
+				newProjectile.GlobalPosition = GlobalPosition;
+				newProjectile.IgnoreShip = this;
+				Owner.AddChild(newProjectile);
+			}
 		}
 		// Handle linear movement
 		var currentVelocity = LinearVelocity;
@@ -103,15 +116,15 @@ public class Ship : ShipBlock
 		FinalVelocity = currentVelocity + (distanceTo * delta * Acceleration);
 	}
 
-    public void AddNewCollision(
-        CollisionShape2D coll,
-        Vector2 attachPosition,
-        float attachRotation)
-    {
-        AddChild(coll);
-        coll.Rotation = attachRotation;
-        coll.Position = attachPosition;
-    }
+	public void AddNewCollision(
+		CollisionShape2D coll,
+		Vector2 attachPosition,
+		float attachRotation)
+	{
+		AddChild(coll);
+		coll.Rotation = attachRotation;
+		coll.Position = attachPosition;
+	}
 
 	protected void OnBuildModeChanged(bool buildMode)
 	{
