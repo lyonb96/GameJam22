@@ -44,26 +44,32 @@ public class Ship : ShipBlock
 
 	public override void _PhysicsProcess(float delta)
 	{
-		if (WorldScript.BuildMode && Input.IsActionJustPressed("Click"))
+		if (WorldScript.BuildMode)
 		{
-			// Check for blocks near mouse
-			var mousePosition = GetGlobalMousePosition();
-			var spaceState = GetWorld2d().DirectSpaceState;
-			var result = spaceState.IntersectPoint(mousePosition);
-			// Check if any of the hit objects are ship parts that are not owned by another ship
-			foreach (var hit in result)
+			if (Input.IsActionJustPressed("Click"))
 			{
-				var dict = hit as Godot.Collections.Dictionary;
-				if (dict is null)
+				// Check for blocks near mouse
+				var mousePosition = GetGlobalMousePosition();
+				var spaceState = GetWorld2d().DirectSpaceState;
+				var result = spaceState.IntersectPoint(mousePosition);
+				// Check if any of the hit objects are ship parts that are not owned by another ship
+				foreach (var hit in result)
 				{
-					continue;
+					var dict = hit as Godot.Collections.Dictionary;
+					if (dict is null)
+					{
+						continue;
+					}
+					var collider = dict["collider"];
+					if (collider is ShipBlock block && block.GetOwningShip() == null)
+					{
+						PickupBlock(block);
+					}
 				}
-				var collider = dict["collider"];
-				if (collider is ShipBlock block && block.GetOwningShip() == null)
-				{
-					CurrentDraggedBlock = block;
-					CurrentDraggedBlock.DraggingShip = this;
-				}
+			}
+			else if (Input.IsActionJustReleased("Click"))
+			{
+				DropBlock();
 			}
 		}
 	}
@@ -103,22 +109,48 @@ public class Ship : ShipBlock
 		FinalVelocity = currentVelocity + (distanceTo * delta * Acceleration);
 	}
 
-    public void AddNewCollision(
-        CollisionShape2D coll,
-        Vector2 attachPosition,
-        float attachRotation)
-    {
-        AddChild(coll);
-        coll.Rotation = attachRotation;
-        coll.Position = attachPosition;
-    }
+	public void AddNewCollision(
+		CollisionShape2D coll,
+		Vector2 attachPosition,
+		float attachRotation)
+	{
+		AddChild(coll);
+		coll.Rotation = attachRotation;
+		coll.Position = attachPosition;
+	}
+
+	public Vector2 GetDragPosition()
+	{
+		return GetGlobalMousePosition();
+	}
 
 	protected void OnBuildModeChanged(bool buildMode)
 	{
-		if (!buildMode && CurrentDraggedBlock != null)
+		if (!buildMode)
 		{
-			CurrentDraggedBlock.DraggingShip = null;
-			CurrentDraggedBlock = null;
+			DropBlock();
 		}
+	}
+
+	protected void PickupBlock(ShipBlock block)
+	{
+		if (CurrentDraggedBlock != null)
+		{
+			DropBlock();
+		}
+		CurrentDraggedBlock = block;
+		CurrentDraggedBlock.DraggingShip = this;
+		// CurrentDraggedBlock.Mode = ModeEnum.Kinematic;
+	}
+
+	protected void DropBlock()
+	{
+		if (CurrentDraggedBlock is null)
+		{
+			return;
+		}
+		CurrentDraggedBlock.DraggingShip = null;
+		// CurrentDraggedBlock.Mode = ModeEnum.Rigid;
+		CurrentDraggedBlock = null;
 	}
 }
