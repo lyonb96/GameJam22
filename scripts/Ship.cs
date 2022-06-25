@@ -23,8 +23,8 @@ public class Ship : Node2D
 		LocalVelocity = Vector2.Zero;
 
 		//Variable Initialization
-		MoveSpeed = 75F;
-		RotationSpeed = 10.0F;
+		MoveSpeed = 150F;
+		RotationSpeed = 6.0F;
 		SlowRate = 2F;
 	}
 
