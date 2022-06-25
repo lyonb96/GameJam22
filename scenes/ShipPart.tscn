@@ -7,11 +7,13 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 16, 16 )
 
-[node name="Node2D" type="Node2D"]
+[node name="Part" type="Node2D"]
 script = ExtResource( 2 )
 
 [node name="ShipPhysics" type="RigidBody2D" parent="."]
 input_pickable = true
+contacts_reported = 5
+contact_monitor = true
 script = ExtResource( 3 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ShipPhysics"]
@@ -19,3 +21,5 @@ shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="ShipPhysics"]
 texture = ExtResource( 1 )
+
+[connection signal="body_entered" from="ShipPhysics" to="ShipPhysics" method="_on_ShipPhysics_body_entered"]

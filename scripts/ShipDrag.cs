@@ -6,8 +6,6 @@ public class ShipDrag : RigidBody2D
 	private WorldScript WorldScript { get; set; }
 	
 	private bool Dragging { get; set; }
-	
-	private Ship Ship { get; set; }
 
 	private float MoveSpeed { get; set; }
 
@@ -73,6 +71,14 @@ public class ShipDrag : RigidBody2D
 		if (Input.IsActionPressed("Click") && WorldScript.BuildMode)
 		{
 			Dragging = true;
+		}
+	}
+	
+	private void _on_ShipPhysics_body_entered(RigidBody2D body)
+	{
+		if(body.GetParent().GetName() != null && body.GetParent().GetName().Equals("ShipNode2D"))
+		{
+			GD.Print(body.GetParent().GetName());
 		}
 	}
 }
