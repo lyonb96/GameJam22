@@ -3,25 +3,30 @@ using System;
 
 public class Mode : Node2D
 {
-	// Declare member variables here. Examples:
-	// private int a = 2;
-	// private string b = "text";
-	public string currentTexture {get; set; }
-	string ActiveTexture = "res://.import/Active.png-131dd35a7ccb90721add7fe1a29799a9.stex";
-	string BuildTexture = "res://.import/Build.png-b8358e5ccc53e6e80d86b3987e196622.stex";
-	
 	private Sprite ActiveSprite { get; set; }
-
+	
 	private Sprite BuildModeSprite { get; set; }
+	
+	private Node ShipNode { get; set; }
+	
+	private Camera2D CameraView { get; set; }
 
 	private bool BuildMode { get; set; }
+	
+	private float x { get; set; }
+	private float y { get; set; }
+	private float Speed { get; set; }
+	private Vector2 TargetPosition { get; set; }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		ActiveSprite = this.GetChildNodeByName<Sprite>("ActiveModeSprite");
 		BuildModeSprite = this.GetChildNodeByName<Sprite>("BuildModeSprite");
+		//ShipNode = Scene.GetChildNodeByName<Node>("ShipNode2D");
+		//CameraView = ShipNode.GetChildNodeByName<Camera2D>("Camera2D");
 		BuildMode = false;
+
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -33,5 +38,9 @@ public class Mode : Node2D
 			ActiveSprite.Visible = !BuildMode;
 			BuildModeSprite.Visible = BuildMode;
 		}
+		x = GetTree().GetRoot().GetChildNodeByName<Node2D>("ShipNode2D").Position.x;
+		y = GetTree().GetRoot().GetChildNodeByName<Node2D>("ShipNode2D").Position.y;
+		this.Position = new Vector2(x + 150 - (GetViewport().Size.x/2), y + 150 - (GetViewport().Size.y/2));
+
   	}
 }
