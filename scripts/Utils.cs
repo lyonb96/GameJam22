@@ -91,4 +91,19 @@ public static class Utils
 
 	public static Sides AllSides
 		=> Sides.Top | Sides.Bottom | Sides.Left | Sides.Right;
+
+	private static PackedScene ProjectileScene;
+
+	public static void SpawnLaser(float rotation, Vector2 location, Ship owner)
+	{
+		if (ProjectileScene is null)
+		{
+			ProjectileScene = (PackedScene)ResourceLoader.Load("res://scenes/Projectile.tscn");
+		}
+		var newProjectile = ProjectileScene.Instance() as Projectile;
+		newProjectile.Rotation = rotation;
+		newProjectile.GlobalPosition = location;
+		newProjectile.IgnoreShip = owner;
+		owner.GetTree().Root.AddChild(newProjectile);
+	}
 }

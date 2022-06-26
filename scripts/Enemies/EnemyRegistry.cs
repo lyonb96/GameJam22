@@ -17,12 +17,7 @@ public static class EnemyRegistry
                     new EnemyPart
                     {
                         Type = "Armor",
-                        Position = new Vector2(1, 0),
-                    },
-                    new EnemyPart
-                    {
-                        Type = "Armor",
-                        Position = new Vector2(-1, 0),
+                        Position = new Vector2(0, 1),
                     },
                     new EnemyPart
                     {
@@ -31,9 +26,24 @@ public static class EnemyRegistry
                     },
                     new EnemyPart
                     {
+                        Type = "Armor",
+                        Position = new Vector2(1, 0),
+                    },
+                    new EnemyPart
+                    {
                         Type = "Thruster",
-                        Position = new Vector2(0, 1),
-                    }
+                        Position = new Vector2(-1, 0),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(1, -1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(1, 1),
+                    },
                 }
             },
         };

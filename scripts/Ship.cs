@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 public class Ship : ShipBlock
 {
@@ -9,13 +10,13 @@ public class Ship : ShipBlock
 	
 	public bool IsPlayer { get; set; }
 
-	private StatBlock ShipStats { get; set; }
+	protected StatBlock ShipStats { get; set; }
 
 	private float SlowRate { get; set; }
 
-	private Vector2 FinalVelocity { get; set; }
+	protected Vector2 FinalVelocity { get; set; }
 
-	private float DesiredRotation { get; set; }
+	protected float DesiredRotation { get; set; }
 
 	private ShipBlock CurrentDraggedBlock { get; set; }
 
@@ -27,9 +28,26 @@ public class Ship : ShipBlock
 
 	public Sprite HoverSprite { get; set; }
 
+	protected List<WeaponLogic> Weapons { get; set; }
+
+	private bool _shooting;
+	protected bool Shooting
+	{
+		get => _shooting;
+		set
+		{
+			if (Shooting != value)
+			{
+				_shooting = value;
+				HandleShootingChange();
+			}
+		}
+	}
+
 	public Ship()
 		: base()
 	{
+		Weapons = new List<WeaponLogic>();
 		IsPlayer = true;
 		GridHandler = new GridHandler(this);
 		GridHandler.AddBlock(new Vector2(), Utils.AllSides);
@@ -106,6 +124,10 @@ public class Ship : ShipBlock
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
+		foreach (var weapon in Weapons)
+		{
+			weapon.Update(delta);
+		}
 		if (!IsPlayer)
 		{
 			return;
@@ -119,14 +141,16 @@ public class Ship : ShipBlock
 			DesiredRotation += Utils.SmallestMagnitude(mouseRotation, mouseRotation * delta * ShipStats.RotationRate);
 
 			//Handle Firing
-			if (Input.IsActionJustPressed("Click"))
-			{
-				var newProjectile = Projectile.Instance() as Projectile;
-				newProjectile.Rotation = Rotation;
-				newProjectile.GlobalPosition = GlobalPosition;
-				newProjectile.IgnoreShip = this;
-				Owner.AddChild(newProjectile);
-			}
+			Shooting = Input.IsActionPressed("Click");
+			// if (Input.IsActionJustPressed("Click"))
+			// {
+			//  Shooting = true;
+			// 	var newProjectile = Projectile.Instance() as Projectile;
+			// 	newProjectile.Rotation = Rotation;
+			// 	newProjectile.GlobalPosition = GlobalPosition;
+			// 	newProjectile.IgnoreShip = this;
+			// 	Owner.AddChild(newProjectile);
+			// }
 		}
 		// Handle linear movement
 		var currentVelocity = LinearVelocity;
@@ -169,6 +193,10 @@ public class Ship : ShipBlock
 
 	protected void OnBuildModeChanged(bool buildMode)
 	{
+		if (buildMode)
+		{
+			Shooting = false;
+		}
 		if (!buildMode)
 		{
 			DropBlock();
@@ -239,6 +267,17 @@ public class Ship : ShipBlock
 		{
 			child.StatBlockMods(ShipStats);
 		}
+		if (child is WeaponBlock weapon)
+		{
+			var weaponLogic = weapon.Logic;
+			if (weaponLogic != null)
+			{
+				weaponLogic.OwningShip = this;
+				weaponLogic.Location = location;
+				GD.Print(location);
+				Weapons.Add(weaponLogic);
+			}
+		}
 		// Attach it to the ship
 		child.RemoveChild(child.BlockCollision);
 		owningShip.AddNewCollision(
@@ -247,5 +286,21 @@ public class Ship : ShipBlock
 			0.0F);
 		// Delete the old block
 		child.QueueFree();
+	}
+
+	public void HandleShootingChange()
+	{
+		// Find all weapons and inform them of the shoosting
+		foreach (var weapon in Weapons)
+		{
+			if (Shooting)
+			{
+				weapon.StartShooting();
+			}
+			else
+			{
+				weapon.StopShooting();
+			}
+		}
 	}
 }

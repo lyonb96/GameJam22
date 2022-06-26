@@ -19,10 +19,10 @@ public class WorldScript : Node2D
 	{
         EnemyRegistry.Initialize();
 		Instance = this;
-		// EnemyScene = ResourceLoader.Load("res://scenes/Enemy.tscn") as PackedScene;
-		// var enemy = EnemyScene.Instance() as EnemyAI;
-		// enemy.SetSchema("Basic");
-		// AddChild(enemy);
+		EnemyScene = ResourceLoader.Load("res://scenes/Enemy.tscn") as PackedScene;
+		var enemy = EnemyScene.Instance() as EnemyAI;
+		enemy.SetSchema("Basic");
+		AddChild(enemy);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
