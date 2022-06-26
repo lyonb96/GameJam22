@@ -1,5 +1,6 @@
-using Godot;
 using System;
+using System.Linq;
+using Godot;
 
 public class WorldScript : Node2D
 {
@@ -11,10 +12,14 @@ public class WorldScript : Node2D
 
 	public PackedScene EnemyScene { get; set; }
 
+	private float TimeSinceLastSpawn { get; set; }
+
 	public PartTooltip Tooltip { get; set; }
 
 	public delegate void OnBuildModeChangedDelegate(bool mode);
 	public event OnBuildModeChangedDelegate OnBuildModeChanged;
+
+	public int PlayerScore { get; set; }
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -22,10 +27,11 @@ public class WorldScript : Node2D
 		EnemyRegistry.Initialize();
 		Instance = this;
 		EnemyScene = ResourceLoader.Load("res://scenes/Enemy.tscn") as PackedScene;
-		var enemy = EnemyScene.Instance() as EnemyAI;
-		enemy.GlobalPosition = new Vector2(8000.0F, 8000.0F);
-		enemy.SetSchema("Basic");
-		AddChild(enemy);
+		// var enemy = EnemyScene.Instance() as EnemyAI;
+		// enemy.GlobalPosition = new Vector2(8000.0F, 8000.0F);
+		// enemy.SetSchema("Basic");
+		// AddChild(enemy);
+		TimeSinceLastSpawn = 25.0F;
 
 		Tooltip = this.GetChildNodeByName<PartTooltip>("Tooltip");
 	}
@@ -40,6 +46,16 @@ public class WorldScript : Node2D
 			OnBuildModeChanged?.Invoke(BuildMode);
 		}
 		HandleTooltip();
+		HandleSpawning(delta);
+	}
+
+	public void OnPlayerDestroyedEnemy(EnemyAI enemy)
+	{
+		var challengeRating = enemy?.ShipStats?.ChallengeRating;
+		if (challengeRating != null)
+		{
+			PlayerScore += challengeRating.Value;
+		}
 	}
 
 	private void HandleTooltip()
@@ -67,5 +83,49 @@ public class WorldScript : Node2D
 		}
 		Tooltip.SetBlock(null);
 		Tooltip.Visible = false;
+	}
+
+	private void HandleSpawning(float delta)
+	{
+		if (PlayerShip is null)
+		{
+			return;
+		}
+		TimeSinceLastSpawn += delta;
+		if (TimeSinceLastSpawn > 45.0F)
+		{
+			TimeSinceLastSpawn -= 45.0F;
+			SpawnNewEnemy();
+		}
+	}
+
+	private void SpawnNewEnemy()
+	{
+		var crLimit = Mathf.Max((float)PlayerShip.ShipStats.ChallengeRating * 1.2F, 10);
+		// Roll enemies that are less than or up to 20% greater in CR than the player
+		var enemies = EnemyRegistry.Enemies
+			.Where(x => x.Value.ChallengeRating <= crLimit)
+			.Select(x => x.Key);
+		// Select a random direction to spawn the enemy
+		var random = new Random();
+		var distance = 1500.0F + random.NextDouble() * 500.0F;
+		var angle = -180.0F + (random.NextDouble() * 360.0F);
+		var dir = Vector2.Up.Rotated(Mathf.Deg2Rad((float)angle));
+		var spawnPos = dir.Normalized() * (float)distance;
+		var schema = string.Empty;
+		if (enemies.Count() == 1)
+		{
+			// If there's only one, just spawn that one
+			schema = enemies.First();
+		}
+		else
+		{
+			// Select one at random
+			schema = enemies.ElementAt(random.Next(enemies.Count()));
+		}
+		var enemy = EnemyScene.Instance() as EnemyAI;
+		enemy.SetSchema(schema);
+		enemy.GlobalPosition = spawnPos;
+		AddChild(enemy);
 	}
 }

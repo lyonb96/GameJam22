@@ -10,7 +10,7 @@ public class Ship : ShipBlock, IDamageable
 	
 	public bool IsPlayer { get; set; }
 
-	protected StatBlock ShipStats { get; set; }
+	public StatBlock ShipStats { get; set; }
 
 	private float SlowRate { get; set; }
 
