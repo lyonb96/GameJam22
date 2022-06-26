@@ -15,9 +15,9 @@ public class Explosion : Node2D
 		QueueFree();
 	}
 
-//  Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(float delta)
+	public void changeScoreText(int Score)
 	{
-
+		Label ShipScore = this.GetChildNodeByName<Label>("ShipScore");
+		ShipScore.SetText("+" + Score);
 	}
 }
