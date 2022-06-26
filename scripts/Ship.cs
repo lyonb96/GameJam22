@@ -280,9 +280,9 @@ public class Ship : ShipBlock, IDamageable
 			GD.Print("Can't attach parts to unowned ships");
 			return;
 		}
-		if (child.StatBlockMods != null)
+		if (child.StatMods != null)
 		{
-			child.StatBlockMods(ShipStats);
+			ShipStats.ApplyPartMods(child.StatMods);
 		}
 		if (child is WeaponBlock weapon)
 		{

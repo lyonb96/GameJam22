@@ -5,6 +5,12 @@ public class ArmorBlock : ShipBlock
 	{
 		AttachableSides = Utils.AllSides;
 		// Armor blocks just add 50hp to the ship
-		StatBlockMods = statBlock => statBlock.MaxHealth += 50.0F;
+		StatMods = new PartStatMod
+		{
+			MaxHealthMod = new StatBlockModifier { Amount = 50.0F, Mode = StatModMode.Flat },
+			ChallengeRating = 1,
+		};
+		BlockName = "FlexArmor, a product by Phil Swift";
+		BlockDescription = "The easy way to patch, bond, seal and repair!";
 	}
 }

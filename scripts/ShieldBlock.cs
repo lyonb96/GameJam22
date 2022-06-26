@@ -5,17 +5,12 @@ public class ShieldBlock : ShipBlock
     public ShieldBlock()
     {
         AttachableSides = Utils.AllSides;
-        StatBlockMods = stats =>
+        StatMods = new PartStatMod
         {
-            stats.MaxShield += 50.0F;
-            if (stats.ShieldRegenRate <= 0)
-            {
-                stats.ShieldRegenRate = 10.0F;
-            }
-            else
-            {
-                stats.ShieldRegenRate += 5.0F;
-            }
+            MaxShieldMod = new StatBlockModifier { Amount = 50.0F, Mode = StatModMode.Flat },
+            ShieldRegenMod = new StatBlockModifier { Amount = 5.0F, Mode = StatModMode.Percent },
         };
+        BlockName = "Deflect-o-matic";
+        BlockDescription = "Wanna see me deflect some damage? Wanna see me do it again?";
     }
 }
