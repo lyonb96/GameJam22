@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/8 bit retro.mp3-bb57353b704877c0779c377b2f670fec.mp3str"
+
+[deps]
+
+source_file="res://sounds/8 bit retro.mp3"
+dest_files=[ "res://.import/8 bit retro.mp3-bb57353b704877c0779c377b2f670fec.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

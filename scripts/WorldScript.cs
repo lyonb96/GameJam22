@@ -12,6 +12,9 @@ public class WorldScript : Node2D
 
 	public PackedScene EnemyScene { get; set; }
 
+	public PackedScene AudioScene { get; set; }
+	public Node2D AudioPlayer { get; set; }
+
 	private float TimeSinceLastSpawn { get; set; }
 
 	public PartTooltip Tooltip { get; set; }
@@ -34,6 +37,10 @@ public class WorldScript : Node2D
 		TimeSinceLastSpawn = 10.0F;
 
 		Tooltip = this.GetChildNodeByName<PartTooltip>("Tooltip");
+
+		AudioScene = (PackedScene)ResourceLoader.Load("res://scenes/Audio.tscn");
+		AudioPlayer = AudioScene.Instance() as Node2D;
+		AddChild(AudioPlayer);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

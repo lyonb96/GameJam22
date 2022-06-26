@@ -135,9 +135,9 @@ public class EnemyAI : Ship
 		}
 	}
 
-    protected override void Die()
-    {
-        base.Die();
+	protected override void Die()
+	{
+		base.Die();
 		if(HealthReference != null) {
 			HealthReference.QueueFree();
 			HealthReference = null;
@@ -171,5 +171,5 @@ public class EnemyAI : Ship
 			//Nothing
 		}
 
-    }
+	}
 }
