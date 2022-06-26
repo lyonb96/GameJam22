@@ -63,7 +63,7 @@ public class Ship : ShipBlock, IDamageable
 			MoveSpeed = 200.0F,
 			Acceleration = 10.0F,
 			RotationRate = 10.0F,
-			PassiveHealRate = 5.0F,
+			PassiveHealRate = 2.5F,
 		};
 		Health = ShipStats.MaxHealth;
 		Shield = ShipStats.MaxShield;
@@ -355,7 +355,7 @@ public class Ship : ShipBlock, IDamageable
 		Health = Mathf.Min(GetMaxHealth(), Health + amount);
 	}
 
-	protected void Die()
+	protected virtual void Die()
 	{
 		if (IsQueuedForDeletion())
 		{

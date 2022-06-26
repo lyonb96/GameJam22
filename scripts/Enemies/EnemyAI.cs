@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System;
 using Godot;
 
 public class EnemySchema
@@ -20,6 +21,9 @@ public class EnemyPart
 public class EnemyAI : Ship
 {
 	private EnemySchema Schema { get; set; }
+
+	private static PackedScene HealthbarScene;
+	private EnemyHealthBar HealthReference;
 
 	public EnemyAI()
 	{
@@ -62,6 +66,12 @@ public class EnemyAI : Ship
 				AttachChild(block, part.Position * 32.0F);
 			}
 		}
+		
+		//Attach Healthbar
+		HealthbarScene = (PackedScene)ResourceLoader.Load("res://scenes/EnemyHealthBar.tscn");
+		HealthReference = HealthbarScene.Instance() as EnemyHealthBar;
+		HealthReference.AttachedShip = this;
+		WorldScript.Instance.AddChild(HealthReference);
 	}
 
 	public override void _Process(float delta)
@@ -121,4 +131,43 @@ public class EnemyAI : Ship
 			Shooting = false;
 		}
 	}
+
+    protected override void Die()
+    {
+        base.Die();
+		if(HealthReference != null) {
+			HealthReference.QueueFree();
+			HealthReference = null;
+		}
+
+		Random RandomGenerator = new Random();
+		Double LootRoll = RandomGenerator.NextDouble();
+		GD.Print("RNG rolled: " + LootRoll);
+		PackedScene LootScene;
+		if((LootRoll > 0) && (LootRoll <= 0.25)) {
+			//Armor Block
+			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/ArmorBlock.tscn");
+			ArmorBlock Loot = LootScene.Instance() as ArmorBlock;
+			Loot.Position = Position;
+			WorldScript.Instance.AddChild(Loot);
+		}
+		else if((LootRoll > 0.25) && (LootRoll <= 0.5)) {
+			//Thruster Block
+			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/ThrusterBlock.tscn");
+			ThrusterBlock Loot = LootScene.Instance() as ThrusterBlock;
+			Loot.Position = Position;
+			WorldScript.Instance.AddChild(Loot);
+		}
+		else if((LootRoll > 0.5) && (LootRoll <= 0.75)) {
+			//Laser Cannon Block
+			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/LaserCannonBlock.tscn");
+			LaserCannonBlock Loot = LootScene.Instance() as LaserCannonBlock;
+			Loot.Position = Position;
+			WorldScript.Instance.AddChild(Loot);
+		}
+		else if((LootRoll > 0.75) && (LootRoll <= 1)) {
+			//Nothing
+		}
+
+    }
 }
