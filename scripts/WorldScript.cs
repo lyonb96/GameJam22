@@ -13,7 +13,7 @@ public class WorldScript : Node2D
 	public PackedScene EnemyScene { get; set; }
 
 	public PackedScene AudioScene { get; set; }
-	public Node2D AudioPlayer { get; set; }
+	public Audio AudioPlayer { get; set; }
 
 	private float TimeSinceLastSpawn { get; set; }
 
@@ -38,8 +38,8 @@ public class WorldScript : Node2D
 
 		Tooltip = this.GetChildNodeByName<PartTooltip>("Tooltip");
 
-		AudioScene = (PackedScene)ResourceLoader.Load("res://scenes/Audio.tscn");
-		AudioPlayer = AudioScene.Instance() as Node2D;
+		AudioScene = (PackedScene)ResourceLoader.Load("res://scenes/Audio/Audio.tscn");
+		AudioPlayer = AudioScene.Instance() as Audio;
 		AddChild(AudioPlayer);
 	}
 

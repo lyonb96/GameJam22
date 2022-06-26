@@ -1,3 +1,5 @@
+using Godot;
+
 public class LaserCannonBlock : WeaponBlock
 {
     public LaserCannonBlock()
@@ -40,6 +42,11 @@ public class LaserCannonBlock : WeaponBlock
 			{
 				TimeSinceLastShot = 0.0F;
 				Utils.SpawnLaser(Damage, OwningShip.Rotation, OwningShip.ToGlobal(Location), OwningShip);
+				if(OwningShip == WorldScript.Instance.PlayerShip) {
+					PackedScene AudioScene = (PackedScene)ResourceLoader.Load("res://scenes/Audio/LaserAudio.tscn");
+					LaserAudio AudioPlayer = AudioScene.Instance() as LaserAudio;
+					WorldScript.Instance.AddChild(AudioPlayer);
+				}
 			}
 		}
 	}
