@@ -1,43 +1,54 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/Explosion.cs" type="Script" id=1]
+[ext_resource path="res://scripts/shipexplosion.tres" type="Material" id=2]
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=1]
 min_value = -360.0
 max_value = 360.0
 _data = [ Vector2( 0, 360 ), 0.0, 0.0, 0, 0, Vector2( 1, -360 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=4]
-curve = SubResource( 9 )
+[sub_resource type="CurveTexture" id=2]
+curve = SubResource( 1 )
 
-[sub_resource type="Gradient" id=10]
-offsets = PoolRealArray( 0.279503, 0.670807 )
-colors = PoolColorArray( 0.294118, 0.184314, 0, 1, 0.980392, 0.482353, 0, 1 )
+[sub_resource type="Curve" id=3]
+min_value = -360.0
+max_value = 360.0
+_data = [ Vector2( 0.0163043, 360 ), 0.0, 0.0, 0, 0, Vector2( 0.994565, -360 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="Gradient" id=5]
+colors = PoolColorArray( 0.352941, 0.188235, 0, 1, 0.513726, 0.411765, 0.188235, 1 )
 
 [sub_resource type="GradientTexture" id=6]
-gradient = SubResource( 10 )
+gradient = SubResource( 5 )
 
-[sub_resource type="Curve" id=11]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), -3.45, 0.0, 0, 0 ]
+[sub_resource type="Curve" id=7]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.323864 ), -2.45788, 0.0, 0, 0 ]
 
 [sub_resource type="CurveTexture" id=8]
-curve = SubResource( 11 )
+curve = SubResource( 7 )
 
-[sub_resource type="ParticlesMaterial" id=12]
+[sub_resource type="ParticlesMaterial" id=9]
 emission_shape = 1
-emission_sphere_radius = 5.0
+emission_sphere_radius = 1.0
 flag_disable_z = true
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 75.0
-initial_velocity_random = 0.25
+initial_velocity_random = 0.55
+angular_velocity_curve = SubResource( 4 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
-angle_curve = SubResource( 4 )
-scale = 10.0
+linear_accel = -13.73
+linear_accel_random = 0.62
+angle = 720.0
+angle_curve = SubResource( 2 )
+scale = 4.0
 scale_random = 1.0
 scale_curve = SubResource( 8 )
-color = Color( 0.309804, 0.180392, 0, 1 )
 color_ramp = SubResource( 6 )
 
 [node name="Explosions" type="Node2D"]
@@ -50,4 +61,13 @@ lifetime = 1.75
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
-process_material = SubResource( 12 )
+process_material = SubResource( 9 )
+
+[node name="ShipExplosion" type="Particles2D" parent="."]
+emitting = false
+amount = 100
+lifetime = 1.75
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+process_material = ExtResource( 2 )
