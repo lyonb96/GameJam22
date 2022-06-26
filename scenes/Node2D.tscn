@@ -35,3 +35,15 @@ width = 20.0
 
 [node name="Part" parent="." instance=ExtResource( 5 )]
 position = Vector2( 75, 107 )
+
+[node name="Part" parent="Part" instance=ExtResource( 5 )]
+position = Vector2( -256, 17 )
+
+[node name="Part2" parent="Part" instance=ExtResource( 5 )]
+position = Vector2( -126, 119 )
+
+[node name="Part3" parent="Part" instance=ExtResource( 5 )]
+position = Vector2( -435, 52 )
+
+[node name="Part4" parent="Part" instance=ExtResource( 5 )]
+position = Vector2( -355, -63 )

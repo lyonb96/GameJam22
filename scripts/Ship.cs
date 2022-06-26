@@ -23,11 +23,19 @@ public class Ship : ShipBlock
 
 	private ShipBlock CurrentDraggedBlock { get; set; }
 
+	private Vector2? DraggedBlockSnapLocation { get; set; }
+
 	public PackedScene Projectile { get; set; }
+
+	public GridHandler GridHandler { get; set; }
+
+	public Sprite HoverSprite { get; set; }
 
 	public Ship()
 		: base(100.0F)
 	{
+		GridHandler = new GridHandler(this);
+		GridHandler.AddBlock(new Vector2(), Utils.AllSides);
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -38,6 +46,7 @@ public class Ship : ShipBlock
 		WorldScript.PlayerShip = this;
 		WorldScript.OnBuildModeChanged += OnBuildModeChanged;
 		Physics = this.GetChildNodeByName<ShipPhysics>("ShipPhysics");
+		HoverSprite = this.GetChildNodeByName<Sprite>("HoverSpot");
 		MoveSpeed = 150.0F;
 		Acceleration = 10.0F;
 		SlowRate = 2.0F;
@@ -120,6 +129,11 @@ public class Ship : ShipBlock
 		var desiredVelocity = new Vector2(desiredSpeed, 0.0F).Rotated(Rotation);
 		var distanceTo = desiredVelocity - currentVelocity;
 		FinalVelocity = currentVelocity + (distanceTo * delta * Acceleration);
+
+		if (WorldScript.BuildMode && CurrentDraggedBlock != null)
+		{
+			HandleBlockDragging();
+		}
 	}
 
 	public void AddNewCollision(
@@ -157,8 +171,56 @@ public class Ship : ShipBlock
 		{
 			return;
 		}
+		if (DraggedBlockSnapLocation != null)
+		{
+			// Attach the block
+			AttachChild(CurrentDraggedBlock, DraggedBlockSnapLocation.Value * 32.0F);
+			GridHandler.AddBlock(DraggedBlockSnapLocation.Value, Utils.AllSides);
+			HoverSprite.Visible = false;
+		}
 		CurrentDraggedBlock.DraggingShip = null;
 		// CurrentDraggedBlock.Mode = ModeEnum.Rigid;
 		CurrentDraggedBlock = null;
+	}
+
+	protected void HandleBlockDragging()
+	{
+		var blockPosition = CurrentDraggedBlock.GlobalPosition;
+		var closest = GridHandler.FindNearestOpenBlock(blockPosition);
+		var closestWorld = ToGlobal(closest * 32.0F);
+		if (closestWorld.DistanceSquaredTo(blockPosition) <= 64.0F * 64.0F)
+		{
+			DraggedBlockSnapLocation = closest;
+			HoverSprite.Visible = true;
+			HoverSprite.Position = DraggedBlockSnapLocation.Value * 32.0F;
+		}
+		else
+		{
+			DraggedBlockSnapLocation = null;
+			HoverSprite.Visible = false;
+		}
+	}
+
+	public void AttachChild(ShipBlock child, Vector2 location)
+	{
+		// if (!CanAttachAtSide(side))
+		// {
+		//     GD.Print("Can't attach at that side");
+		//     return;
+		// }
+		var owningShip = GetOwningShip();
+		if (owningShip is null)
+		{
+			GD.Print("Can't attach parts to unowned ships");
+			return;
+		}
+		// Attach it to the ship
+		child.RemoveChild(child.BlockCollision);
+		owningShip.AddNewCollision(
+			child.BlockCollision,
+			location,
+			0.0F);
+		// Delete the old block
+		child.QueueFree();
 	}
 }

@@ -26,7 +26,7 @@ public class ShipBlock : RigidBody2D
 	private Vector2 DragVelocity { get; set; }
 	private float AngularFalloff { get; set; }
 
-	private CollisionShape2D BlockCollision { get; set; }
+	public CollisionShape2D BlockCollision { get; set; }
 
 	public ShipBlock(float health)
 	{
@@ -45,30 +45,6 @@ public class ShipBlock : RigidBody2D
 				break;
 			}
 		}
-	}
-
-	public void AttachChild(ShipBlock child, Sides side)
-	{
-		// if (!CanAttachAtSide(side))
-		// {
-		//     GD.Print("Can't attach at that side");
-		//     return;
-		// }
-		var owningShip = GetOwningShip();
-		if (owningShip is null)
-		{
-			GD.Print("Can't attach parts to unowned ships");
-			return;
-		}
-		// Calculate where to attach the block
-		var position = Position + GetDirectionForSide(side) * 32;
-		// Attach it to the ship
-		owningShip.AddNewCollision(
-			child.BlockCollision,
-			position,
-			0.0F);
-		// Delete the old block
-		child.QueueFree();
 	}
 
 	public bool CanAttachAtSide(Sides side)
@@ -105,30 +81,6 @@ public class ShipBlock : RigidBody2D
 		}
 		DragVelocity = desiredVelocity;
 		AngularFalloff = AngularVelocity * (1.0F - (delta * 5.0F));
-
-		// Check if there's a ship nearby
-		if (DraggingShip != null)
-		{
-			var spaceState = GetWorld2d().DirectSpaceState;
-			var query = new Physics2DShapeQueryParameters();
-			query.SetShape(new CircleShape2D { Radius = 64.0F });
-			query.Transform = new Transform2D { origin = GlobalPosition };
-			// query.Exclude = new Godot.Collections.Array { this };
-			query.CollideWithBodies = true;
-			var result = spaceState.IntersectShape(query);
-			foreach (var hit in result)
-			{
-				GD.Print(result);
-				if (hit is Godot.Collections.Dictionary dict)
-				{
-					var collider = dict["collider"];
-					if (collider is ShipBlock block && block != this && block.GetOwningShip() == DraggingShip)
-					{
-						GD.Print("Found a place to attach");
-					}
-				}
-			}
-		}
 	}
 
 	public override void _IntegrateForces(Physics2DDirectBodyState state)
