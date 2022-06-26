@@ -25,7 +25,11 @@ public class ShipBlock : RigidBody2D
 
 	public CollisionShape2D BlockCollision { get; set; }
 
-	public Action<StatBlock> StatBlockMods { get; set; }
+	public PartStatMod StatMods { get; set; }
+
+	public string BlockName { get; set; }
+
+	public string BlockDescription { get; set; }
 
 	public ShipBlock()
 	{

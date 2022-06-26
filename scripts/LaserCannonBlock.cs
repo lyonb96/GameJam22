@@ -7,6 +7,13 @@ public class LaserCannonBlock : WeaponBlock
             RateOfFire = 0.5F,
             Damage = 10.0F,
         };
+        StatMods = new PartStatMod
+        {
+            MaxHealthMod = new StatBlockModifier { Amount = 25.0F, Mode = StatModMode.Flat },
+            ChallengeRating = 10,
+        };
+        BlockName = "Lasertron Mk. 2";
+        BlockDescription = "Don't ask what happened with Mk. 1, we're still not sure ourselves";
     }
 
     class LaserCannonLogic : WeaponLogic

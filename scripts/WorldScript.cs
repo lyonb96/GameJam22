@@ -11,6 +11,8 @@ public class WorldScript : Node2D
 
 	public PackedScene EnemyScene { get; set; }
 
+	public PartTooltip Tooltip { get; set; }
+
 	public delegate void OnBuildModeChangedDelegate(bool mode);
 	public event OnBuildModeChangedDelegate OnBuildModeChanged;
 
@@ -24,6 +26,8 @@ public class WorldScript : Node2D
 		enemy.GlobalPosition = new Vector2(8000.0F, 8000.0F);
 		enemy.SetSchema("Basic");
 		AddChild(enemy);
+
+		Tooltip = this.GetChildNodeByName<PartTooltip>("Tooltip");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -35,5 +39,33 @@ public class WorldScript : Node2D
 			BuildMode = !BuildMode;
 			OnBuildModeChanged?.Invoke(BuildMode);
 		}
+		HandleTooltip();
+	}
+
+	private void HandleTooltip()
+	{
+		// Check for blocks and stuff
+		if (BuildMode)
+		{
+			// Check for blocks near mouse
+			var mousePosition = GetGlobalMousePosition();
+			var spaceState = GetWorld2d().DirectSpaceState;
+			var result = spaceState.IntersectPoint(mousePosition);
+			foreach (var hit in result)
+			{
+				if (hit is Godot.Collections.Dictionary dict
+					&& dict["collider"] is ShipBlock block
+					&& !(block is Ship)
+					&& block.DraggingShip is null)
+				{
+					Tooltip.Visible = true;
+					Tooltip.GlobalPosition = GetGlobalMousePosition();
+					Tooltip.SetBlock(block);
+					return;
+				}
+			}
+		}
+		Tooltip.SetBlock(null);
+		Tooltip.Visible = false;
 	}
 }
