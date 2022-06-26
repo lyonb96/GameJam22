@@ -6,11 +6,13 @@ public class Projectile : Node2D
 	private float Speed { get; set; }
 	public Ship IgnoreShip { get; set; }
 
+	public PackedScene AsteroidGroup { get; set; }
+
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		Speed = 9F;
-		GD.Print(Rotation);
+		AsteroidGroup = (PackedScene)ResourceLoader.Load("res://scenes/Asteroid.tscn");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -25,6 +27,15 @@ public class Projectile : Node2D
 		}
 		else
 		{
+			if(result["collider"] is RigidBody2D)
+			{
+				RigidBody2D Collider = (RigidBody2D)result["collider"];
+				GD.Print(Collider.IsInGroup("Destroyables"));
+				if(Collider.IsInGroup("Destroyables"))
+				{
+					Collider.QueueFree();
+				}
+			}
 			QueueFree();
 		}
 	}
