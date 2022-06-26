@@ -6,18 +6,14 @@ public class Ship : ShipBlock
 {
 	// Stats
 	public WorldScript WorldScript { get; set; }
+	
+	public bool IsPlayer { get; set; }
 
-	private ShipPhysics Physics { get; set; }
-
-	private float MoveSpeed { get; set; }
-
-	private float Acceleration { get; set; }
+	private StatBlock ShipStats { get; set; }
 
 	private float SlowRate { get; set; }
 
 	private Vector2 FinalVelocity { get; set; }
-
-	private float RotationRate { get; set; }
 
 	private float DesiredRotation { get; set; }
 
@@ -32,10 +28,20 @@ public class Ship : ShipBlock
 	public Sprite HoverSprite { get; set; }
 
 	public Ship()
-		: base(100.0F)
+		: base()
 	{
+		IsPlayer = true;
 		GridHandler = new GridHandler(this);
 		GridHandler.AddBlock(new Vector2(), Utils.AllSides);
+		ShipStats = new StatBlock
+		{
+			MaxHealth = 100.0F,
+			MaxShield = 0.0F,
+			ShieldRegenRate = 0.0F,
+			MoveSpeed = 200.0F,
+			Acceleration = 10.0F,
+			RotationRate = 10.0F,
+		};
 	}
 
 	// Called when the node enters the scene tree for the first time.
@@ -43,19 +49,22 @@ public class Ship : ShipBlock
 	{
 		WorldScript = GetTree().Root.GetChildNodeByName<WorldScript>("Scene");
 		Projectile = (PackedScene)ResourceLoader.Load("res://scenes/Projectile.tscn");
-		WorldScript.PlayerShip = this;
+		if (IsPlayer)
+		{
+			WorldScript.PlayerShip = this;
+		}
 		WorldScript.OnBuildModeChanged += OnBuildModeChanged;
-		Physics = this.GetChildNodeByName<ShipPhysics>("ShipPhysics");
 		HoverSprite = this.GetChildNodeByName<Sprite>("HoverSpot");
-		MoveSpeed = 150.0F;
-		Acceleration = 10.0F;
 		SlowRate = 2.0F;
-		RotationRate = 10.0F;
 		DesiredRotation = 0.0F;
 	}
 
 	public override void _PhysicsProcess(float delta)
 	{
+		if (!IsPlayer)
+		{
+			return;
+		}
 		if (WorldScript.BuildMode)
 		{
 			if (Input.IsActionJustPressed("Click"))
@@ -97,13 +106,17 @@ public class Ship : ShipBlock
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
+		if (!IsPlayer)
+		{
+			return;
+		}
 		// Handle angular velocity
 		if (!WorldScript.BuildMode)
 		{
 			var localMouse = GetLocalMousePosition();
 			var dirToMouse = localMouse.Normalized();
 			var mouseRotation = Mathf.Rad2Deg(dirToMouse.Angle());
-			DesiredRotation += Utils.SmallestMagnitude(mouseRotation, mouseRotation * delta * RotationRate);
+			DesiredRotation += Utils.SmallestMagnitude(mouseRotation, mouseRotation * delta * ShipStats.RotationRate);
 
 			//Handle Firing
 			if (Input.IsActionJustPressed("Click"))
@@ -117,18 +130,26 @@ public class Ship : ShipBlock
 		}
 		// Handle linear movement
 		var currentVelocity = LinearVelocity;
-		var desiredSpeed = 0.0F;
+		var desiredSpeed = new Vector2();
 		if (Input.IsActionPressed("MoveForward"))
 		{
-			desiredSpeed = MoveSpeed;
+			desiredSpeed.x = ShipStats.MoveSpeed;
 		}
 		else if (Input.IsActionPressed("MoveBackward"))
 		{
-			desiredSpeed = -MoveSpeed;
+			desiredSpeed.x = -ShipStats.MoveSpeed;
 		}
-		var desiredVelocity = new Vector2(desiredSpeed, 0.0F).Rotated(Rotation);
+		if (Input.IsActionPressed("MoveRight"))
+		{
+			desiredSpeed.y = ShipStats.MoveSpeed * 0.5F;
+		}
+		else if (Input.IsActionPressed("MoveLeft"))
+		{
+			desiredSpeed.y = ShipStats.MoveSpeed * -0.5F;
+		}
+		var desiredVelocity = desiredSpeed.Rotated(Rotation);
 		var distanceTo = desiredVelocity - currentVelocity;
-		FinalVelocity = currentVelocity + (distanceTo * delta * Acceleration);
+		FinalVelocity = currentVelocity + (distanceTo * delta * ShipStats.Acceleration);
 
 		if (WorldScript.BuildMode && CurrentDraggedBlock != null)
 		{
@@ -213,6 +234,10 @@ public class Ship : ShipBlock
 		{
 			GD.Print("Can't attach parts to unowned ships");
 			return;
+		}
+		if (child.StatBlockMods != null)
+		{
+			child.StatBlockMods(ShipStats);
 		}
 		// Attach it to the ship
 		child.RemoveChild(child.BlockCollision);

@@ -1,11 +1,10 @@
 public class ArmorBlock : ShipBlock
 {
 	public ArmorBlock()
-		: base(50.0F)
+		: base()
 	{
-		AttachableSides |= Sides.Top;
-		AttachableSides |= Sides.Bottom;
-		AttachableSides |= Sides.Left;
-		AttachableSides |= Sides.Right;
+        AttachableSides = Utils.AllSides;
+        // Armor blocks just add 50hp to the ship
+        StatBlockMods = statBlock => statBlock.MaxHealth += 50.0F;
 	}
 }

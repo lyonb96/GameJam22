@@ -11,7 +11,7 @@ public class Projectile : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-		Speed = 9F;
+		Speed = 15F;
 		AsteroidGroup = (PackedScene)ResourceLoader.Load("res://scenes/Asteroid.tscn");
 	}
 

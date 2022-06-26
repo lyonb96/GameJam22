@@ -9,13 +9,20 @@ public class WorldScript : Node2D
 
 	public Ship PlayerShip { get; set; }
 
+	public PackedScene EnemyScene { get; set; }
+
 	public delegate void OnBuildModeChangedDelegate(bool mode);
 	public event OnBuildModeChangedDelegate OnBuildModeChanged;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
+        EnemyRegistry.Initialize();
 		Instance = this;
+		// EnemyScene = ResourceLoader.Load("res://scenes/Enemy.tscn") as PackedScene;
+		// var enemy = EnemyScene.Instance() as EnemyAI;
+		// enemy.SetSchema("Basic");
+		// AddChild(enemy);
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.

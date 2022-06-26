@@ -33,8 +33,10 @@ public class Mode : Node2D
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
   	public override void _Process(float delta)
   	{
-		x = GetTree().GetRoot().GetChildNodeByName<Node2D>("ShipNode2D").Position.x;
-		y = GetTree().GetRoot().GetChildNodeByName<Node2D>("ShipNode2D").Position.y;
+		x = WorldScript.PlayerShip.Position.x;
+		y = WorldScript.PlayerShip.Position.y;
+		// x = WorldScript.GetChildNodeByName<Ship>("ShipShip").Position.x;
+		// y = WorldScript.GetChildNodeByName<Ship>("ShipShip").Position.y;
 		this.Position = new Vector2(x + 150 - (GetViewport().Size.x/2), y + 150 - (GetViewport().Size.y/2));
 
   	}

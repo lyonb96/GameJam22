@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 
@@ -15,10 +16,6 @@ public class ShipBlock : RigidBody2D
 
 	private List<ShipBlock> BlockChildren { get; set; }
 
-	private float MaxHealth { get; set; }
-
-	private float CurrentHealth { get; set; }
-
 	public Sides AttachableSides { get; protected set; }
 
 	public Ship DraggingShip { get; set; }
@@ -28,9 +25,10 @@ public class ShipBlock : RigidBody2D
 
 	public CollisionShape2D BlockCollision { get; set; }
 
-	public ShipBlock(float health)
+	public Action<StatBlock> StatBlockMods { get; set; }
+
+	public ShipBlock()
 	{
-		MaxHealth = CurrentHealth = health;
 		BlockChildren = new List<ShipBlock>();
 	}
 
