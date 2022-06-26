@@ -16,12 +16,11 @@ public class Health : Node2D
 	{
 		var viewport = GetViewport().Size;
 		Position = new Vector2(viewport.x / -2.0F, viewport.y / 2.0F - 110);
-	}
-
-	public override void _PhysicsProcess(float delta)
-	{
-		if(HealthbarReference.Value < HealthbarReference.MaxValue) {
-			HealthbarReference.Value += 0.01;
+		var ship = WorldScript.Instance.PlayerShip;
+		if (ship != null)
+		{
+			HealthbarReference.MaxValue = ship.GetMaxHealth();
+			HealthbarReference.Value = ship.GetCurrentHealth();
 		}
 	}
 

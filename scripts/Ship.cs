@@ -3,7 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 
-public class Ship : ShipBlock
+public class Ship : ShipBlock, IDamageable
 {
 	// Stats
 	public WorldScript WorldScript { get; set; }
@@ -44,6 +44,10 @@ public class Ship : ShipBlock
 		}
 	}
 
+	public float Health { get; protected set; }
+
+	public float Shield { get; protected set; }
+
 	public Ship()
 		: base()
 	{
@@ -59,6 +63,17 @@ public class Ship : ShipBlock
 			MoveSpeed = 200.0F,
 			Acceleration = 10.0F,
 			RotationRate = 10.0F,
+			PassiveHealRate = 5.0F,
+		};
+		Health = ShipStats.MaxHealth;
+		Shield = ShipStats.MaxShield;
+		ShipStats.MaxHealthChanged += (oldVal, newVal) =>
+		{
+			if (newVal > oldVal)
+			{
+				var newHealth = newVal - oldVal;
+				Heal(newHealth);
+			}
 		};
 	}
 
@@ -132,6 +147,8 @@ public class Ship : ShipBlock
 		{
 			return;
 		}
+		// Player passively regens health
+		Heal(delta * ShipStats.PassiveHealRate);
 		// Handle angular velocity
 		if (!WorldScript.BuildMode)
 		{
@@ -301,5 +318,57 @@ public class Ship : ShipBlock
 				weapon.StopShooting();
 			}
 		}
+	}
+
+	public void TakeDamage(float damage)
+	{
+		var remaining = damage;
+		if (Shield > 0)
+		{
+			Shield -= damage;
+			if (Shield < 0.0F)
+			{
+				remaining = -Shield;
+				Shield = 0.0F;
+			}
+		}
+		Health -= remaining;
+		if (Health <= 0.0F)
+		{
+			// Dead-ass
+			Die();
+		}
+	}
+
+	public float GetMaxHealth()
+	{
+		return ShipStats.MaxHealth;
+	}
+
+	public float GetCurrentHealth()
+	{
+		return Health;
+	}
+
+	public void Heal(float amount)
+	{
+		Health = Mathf.Min(GetMaxHealth(), Health + amount);
+	}
+
+	protected void Die()
+	{
+		if (IsQueuedForDeletion())
+		{
+			return;
+		}
+		var explosion = Utils.ExplosionScene.Instance() as Explosion;
+		explosion.Position = GlobalPosition;
+		explosion.GetChildNodeByName<Particles2D>("ShipExplosion").Emitting = true;
+		WorldScript.AddChild(explosion);
+		if (!IsPlayer)
+		{
+			// Roll the spawn table and see if this enemy drops a new part
+		}
+		QueueFree();
 	}
 }

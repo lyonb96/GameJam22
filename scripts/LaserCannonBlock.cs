@@ -32,7 +32,7 @@ public class LaserCannonBlock : WeaponBlock
             if (Shooting && TimeSinceLastShot > RateOfFire)
             {
                 TimeSinceLastShot = 0.0F;
-                Utils.SpawnLaser(OwningShip.Rotation, OwningShip.ToGlobal(Location), OwningShip);
+                Utils.SpawnLaser(Damage, OwningShip.Rotation, OwningShip.ToGlobal(Location), OwningShip);
             }
         }
     }

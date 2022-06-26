@@ -108,7 +108,7 @@ public class EnemyAI : Ship
 		// Shooting
 		var myAngle = Vector2.Right.Rotated(GlobalRotation);
 		var dot = myAngle.Dot(directionToPlayer);
-		if (dot > 0.85F && distance < 1000.0F)
+		if (dot > 0.85F && distance < 800.0F)
 		{
 			// Try to shoot
 			Shooting = true;

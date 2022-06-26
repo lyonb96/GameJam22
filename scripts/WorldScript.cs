@@ -21,6 +21,7 @@ public class WorldScript : Node2D
 		Instance = this;
 		EnemyScene = ResourceLoader.Load("res://scenes/Enemy.tscn") as PackedScene;
 		var enemy = EnemyScene.Instance() as EnemyAI;
+		enemy.GlobalPosition = new Vector2(8000.0F, 8000.0F);
 		enemy.SetSchema("Basic");
 		AddChild(enemy);
 	}

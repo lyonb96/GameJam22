@@ -94,7 +94,7 @@ public static class Utils
 
 	private static PackedScene ProjectileScene;
 
-	public static void SpawnLaser(float rotation, Vector2 location, Ship owner)
+	public static void SpawnLaser(float damage, float rotation, Vector2 location, Ship owner)
 	{
 		if (ProjectileScene is null)
 		{
@@ -104,6 +104,13 @@ public static class Utils
 		newProjectile.Rotation = rotation;
 		newProjectile.GlobalPosition = location;
 		newProjectile.IgnoreShip = owner;
+		newProjectile.Damage = damage;
 		owner.GetTree().Root.AddChild(newProjectile);
 	}
+
+	private static PackedScene explosionScene;
+	public static PackedScene ExplosionScene
+		=> explosionScene != null
+			? explosionScene
+			: explosionScene = ResourceLoader.Load("res://scenes/Explosion.tscn") as PackedScene;
 }

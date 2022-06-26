@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public class Asteroids : RigidBody2D
+public class Asteroids : RigidBody2D, IDamageable
 {
 	// Declare member variables here. Examples:
 	// private int a = 2;
@@ -19,6 +19,23 @@ public class Asteroids : RigidBody2D
 //  {
 //      
 //  }
+
+	public void TakeDamage(float damage)
+	{
+		// Asteroid gets destroyed if it takes any damage at all
+		Destroy();
+	}
+
+	public float GetMaxHealth()
+	{
+		return 0.0F;
+	}
+
+	public float GetCurrentHealth()
+	{
+		return 0.0F;
+	}
+
 	public void Destroy()
 	{
 		Explosion NewExplosion = ExplosionScene.Instance() as Explosion;
