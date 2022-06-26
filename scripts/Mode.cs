@@ -6,14 +6,6 @@ public class Mode : Node2D
 	private Sprite ActiveModeSprite { get; set; }
 	
 	private Sprite BuildModeSprite { get; set; }
-	
-	private Node ShipNode { get; set; }
-	
-	private Camera2D CameraView { get; set; }
-	private float x { get; set; }
-	private float y { get; set; }
-	private float Speed { get; set; }
-	private Vector2 TargetPosition { get; set; }
 
 	private WorldScript WorldScript { get; set; }
 
@@ -25,7 +17,6 @@ public class Mode : Node2D
 		{
 			ActiveModeSprite.Visible = !mode;
 			BuildModeSprite.Visible = mode;
-			GD.Print(mode);
 		};
 		ActiveModeSprite = this.GetChildNodeByName<Sprite>("ActiveModeSprite");
 		BuildModeSprite = this.GetChildNodeByName<Sprite>("BuildModeSprite");
