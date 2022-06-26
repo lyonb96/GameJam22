@@ -30,10 +30,10 @@ public class Projectile : Node2D
 			if(result["collider"] is RigidBody2D)
 			{
 				RigidBody2D Collider = (RigidBody2D)result["collider"];
-				GD.Print(Collider.IsInGroup("Destroyables"));
-				if(Collider.IsInGroup("Destroyables"))
+				if(Collider is Asteroids)
 				{
-					Collider.QueueFree();
+					Asteroids ColliderCast = (Asteroids)Collider;
+					ColliderCast.Destroy();
 				}
 			}
 			QueueFree();
