@@ -3,7 +3,7 @@ using System;
 
 public class Mode : Node2D
 {
-	private Sprite ActiveSprite { get; set; }
+	private Sprite ActiveModeSprite { get; set; }
 	
 	private Sprite BuildModeSprite { get; set; }
 	
@@ -23,10 +23,11 @@ public class Mode : Node2D
 		WorldScript = GetTree().Root.GetChildNodeByName<WorldScript>("Scene");
 		WorldScript.OnBuildModeChanged += mode =>
 		{
-			ActiveSprite.Visible = !mode;
+			ActiveModeSprite.Visible = !mode;
 			BuildModeSprite.Visible = mode;
+			GD.Print(mode);
 		};
-		ActiveSprite = this.GetChildNodeByName<Sprite>("ActiveModeSprite");
+		ActiveModeSprite = this.GetChildNodeByName<Sprite>("ActiveModeSprite");
 		BuildModeSprite = this.GetChildNodeByName<Sprite>("BuildModeSprite");
 	}
 
