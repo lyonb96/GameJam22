@@ -31,6 +31,7 @@ position = Vector2( 132, -132 )
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 process_mode = 0
+smoothing_enabled = true
 script = ExtResource( 2 )
 
 [node name="PlayerShip" parent="Camera2D" instance=ExtResource( 4 )]

@@ -12,6 +12,8 @@ script = ExtResource( 1 )
 
 [node name="BuildModeSprite" type="Sprite" parent="."]
 texture = SubResource( 1 )
+centered = false
 
 [node name="ActiveModeSprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
+centered = false
