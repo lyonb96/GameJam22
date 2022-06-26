@@ -365,9 +365,9 @@ public class Ship : ShipBlock, IDamageable
 		explosion.Position = GlobalPosition;
 		explosion.GetChildNodeByName<Particles2D>("ShipExplosion").Emitting = true;
 		WorldScript.AddChild(explosion);
-		if (!IsPlayer)
+		if (IsPlayer)
 		{
-			// Roll the spawn table and see if this enemy drops a new part
+			WorldScript.PlayerShip = null;
 		}
 		QueueFree();
 	}

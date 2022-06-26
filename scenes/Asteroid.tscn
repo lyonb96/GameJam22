@@ -64,7 +64,6 @@ texture = SubResource( 1 )
 emitting = false
 amount = 100
 lifetime = 1.75
-one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource( 9 )

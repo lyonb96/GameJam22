@@ -77,6 +77,9 @@ public class EnemyAI : Ship
 		base._Process(delta);
 		// AI wants to preserve a certain distance between it and the player
 		// Movement
+		if(WorldScript.Instance.PlayerShip is null) {
+			return;
+		}
 		var desiredMinDistance = 250.0F;
 		var desiredMaxDistance = 400.0F;
 		var player = WorldScript.Instance.PlayerShip;
@@ -140,7 +143,6 @@ public class EnemyAI : Ship
 
 		Random RandomGenerator = new Random();
 		Double LootRoll = RandomGenerator.NextDouble();
-		GD.Print("RNG rolled: " + LootRoll);
 		PackedScene LootScene;
 		if((LootRoll > 0) && (LootRoll <= 0.25)) {
 			//Armor Block
@@ -149,21 +151,21 @@ public class EnemyAI : Ship
 			Loot.Position = Position;
 			WorldScript.Instance.AddChild(Loot);
 		}
-		else if((LootRoll > 0.25) && (LootRoll <= 0.5)) {
+		else if((LootRoll > 0.25) && (LootRoll <= 0.375)) {
 			//Thruster Block
 			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/ThrusterBlock.tscn");
 			ThrusterBlock Loot = LootScene.Instance() as ThrusterBlock;
 			Loot.Position = Position;
 			WorldScript.Instance.AddChild(Loot);
 		}
-		else if((LootRoll > 0.5) && (LootRoll <= 0.75)) {
+		else if((LootRoll > 0.375) && (LootRoll <= 0.5)) {
 			//Laser Cannon Block
 			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/LaserCannonBlock.tscn");
 			LaserCannonBlock Loot = LootScene.Instance() as LaserCannonBlock;
 			Loot.Position = Position;
 			WorldScript.Instance.AddChild(Loot);
 		}
-		else if((LootRoll > 0.75) && (LootRoll <= 1)) {
+		else if((LootRoll > 0.5) && (LootRoll <= 1)) {
 			//Nothing
 		}
 

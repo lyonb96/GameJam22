@@ -23,7 +23,7 @@ public class WorldScript : Node2D
 		Instance = this;
 		EnemyScene = ResourceLoader.Load("res://scenes/Enemy.tscn") as PackedScene;
 		var enemy = EnemyScene.Instance() as EnemyAI;
-		enemy.GlobalPosition = new Vector2(4000.0F, 4000.0F);
+		enemy.GlobalPosition = new Vector2(500.0F, 500.0F);
 		enemy.SetSchema("Basic");
 		AddChild(enemy);
 
@@ -67,5 +67,13 @@ public class WorldScript : Node2D
 		}
 		Tooltip.SetBlock(null);
 		Tooltip.Visible = false;
+	}
+
+	public void OnPlayerKill() {
+		PlayerShip = null;
+		//Game Over
+		var GameOver = this.GetChildNodeByName<GameOver>("GameOver");
+		GameOver.Visible = true;
+		//Score Display
 	}
 }

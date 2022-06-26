@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://scripts/Explosion.cs" type="Script" id=1]
 [ext_resource path="res://scripts/shipexplosion.tres" type="Material" id=2]
+[ext_resource path="res://images/GameFont.tres" type="DynamicFont" id=3]
 
 [sub_resource type="Curve" id=1]
 min_value = -360.0
@@ -62,6 +63,14 @@ one_shot = true
 explosiveness = 1.0
 randomness = 1.0
 process_material = SubResource( 9 )
+
+[node name="Score" type="Label" parent="AsteroidExplosion"]
+margin_left = -16.0
+margin_top = -24.0
+margin_right = 16.0
+margin_bottom = 25.0
+custom_fonts/font = ExtResource( 3 )
+text = "+5"
 
 [node name="ShipExplosion" type="Particles2D" parent="."]
 emitting = false
