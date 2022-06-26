@@ -16,7 +16,6 @@ public class Health : Node2D
 	{
 		var viewport = GetViewport().Size;
 		Position = new Vector2(viewport.x / -2.0F, viewport.y / 2.0F - 110);
-		GD.Print(Position);
 	}
 
 	public override void _PhysicsProcess(float delta)
