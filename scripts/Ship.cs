@@ -361,13 +361,18 @@ public class Ship : ShipBlock, IDamageable
 		{
 			return;
 		}
-		var explosion = Utils.ExplosionScene.Instance() as Explosion;
+		Explosion explosion = Utils.ExplosionScene.Instance() as Explosion;
 		explosion.Position = GlobalPosition;
 		explosion.GetChildNodeByName<Particles2D>("ShipExplosion").Emitting = true;
+		explosion.GetChildNodeByName<Particles2D>("AsteroidExplosion").Visible = false;
+		explosion.changeScoreText(this.ShipStats.ChallengeRating);
+
 		WorldScript.AddChild(explosion);
+		GD.Print("Challenge Rating: " + this.ShipStats.ChallengeRating);
 		if (IsPlayer)
 		{
 			WorldScript.PlayerShip = null;
+			GetTree().GetRoot().GetChildNodeByName<Node2D>("GameOver").Visible = true;
 		}
 		QueueFree();
 	}
