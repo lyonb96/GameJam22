@@ -17,7 +17,7 @@ public class WorldScript : Node2D
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
-        EnemyRegistry.Initialize();
+		EnemyRegistry.Initialize();
 		Instance = this;
 		EnemyScene = ResourceLoader.Load("res://scenes/Enemy.tscn") as PackedScene;
 		var enemy = EnemyScene.Instance() as EnemyAI;
