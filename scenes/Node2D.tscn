@@ -34,12 +34,6 @@ position = Vector2( -63, 112 )
 [node name="RigidBody2D" parent="RigidBody2D2" instance=ExtResource( 5 )]
 position = Vector2( -156, -46 )
 
-[node name="RigidBody2D2" parent="RigidBody2D2" instance=ExtResource( 7 )]
-position = Vector2( -147, 69 )
-
-[node name="RigidBody2D3" parent="RigidBody2D2" instance=ExtResource( 7 )]
-position = Vector2( -36, 52 )
-
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
 process_mode = 0

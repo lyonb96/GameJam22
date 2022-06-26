@@ -274,7 +274,6 @@ public class Ship : ShipBlock
 			{
 				weaponLogic.OwningShip = this;
 				weaponLogic.Location = location;
-				GD.Print(location);
 				Weapons.Add(weaponLogic);
 			}
 		}
