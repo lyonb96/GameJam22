@@ -6,6 +6,8 @@ public class EnemySchema
 {
 	public string Name { get; set; }
 
+	public int ChallengeRating { get; set; }
+
 	public List<EnemyPart> Parts { get; set; }
 }
 

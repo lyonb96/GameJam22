@@ -9,9 +9,23 @@ public static class EnemyRegistry
     {
         Enemies = new Dictionary<string, EnemySchema>()
         {
-            ["Basic"] = new EnemySchema
+            ["Moth"] = new EnemySchema
             {
-                Name = "Basic Enemy",
+                Name = "Moth",
+                ChallengeRating = 10,
+                Parts = new List<EnemyPart>
+                {
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(-1, 0),
+                    },
+                }
+            },
+            ["Tussler"] = new EnemySchema
+            {
+                Name = "Tussler",
+                ChallengeRating = 28,
                 Parts = new List<EnemyPart>
                 {
                     new EnemyPart
