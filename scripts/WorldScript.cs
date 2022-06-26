@@ -31,7 +31,7 @@ public class WorldScript : Node2D
 		// enemy.GlobalPosition = new Vector2(8000.0F, 8000.0F);
 		// enemy.SetSchema("Basic");
 		// AddChild(enemy);
-		TimeSinceLastSpawn = 25.0F;
+		TimeSinceLastSpawn = 10.0F;
 
 		Tooltip = this.GetChildNodeByName<PartTooltip>("Tooltip");
 	}
@@ -92,9 +92,9 @@ public class WorldScript : Node2D
 			return;
 		}
 		TimeSinceLastSpawn += delta;
-		if (TimeSinceLastSpawn > 45.0F)
+		if (TimeSinceLastSpawn > 20.0F)
 		{
-			TimeSinceLastSpawn -= 45.0F;
+			TimeSinceLastSpawn -= 20.0F;
 			SpawnNewEnemy();
 		}
 	}
@@ -125,7 +125,7 @@ public class WorldScript : Node2D
 		}
 		var enemy = EnemyScene.Instance() as EnemyAI;
 		enemy.SetSchema(schema);
-		enemy.GlobalPosition = spawnPos;
+		enemy.GlobalPosition = PlayerShip.GlobalPosition + spawnPos;
 		AddChild(enemy);
 	}
 }
