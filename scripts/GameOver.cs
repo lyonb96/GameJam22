@@ -11,7 +11,7 @@ public class GameOver : Node2D
 		Score = this.GetChildNodeByName<Label>("Score");
 	}
 
-	public void ChangeScore()
+	public void EndScreen()
 	{
 		Score.SetText("Your Score Was: " + WorldScript.Instance.PlayerScore.ToString());
 	}

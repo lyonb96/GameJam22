@@ -69,7 +69,9 @@ public class WorldScript : Node2D
 	public void OnPlayerDie()
 	{
 		PlayerShip = null;
-		this.GetChildNodeByName<Node2D>("GameOver").Visible = true;
+		GameOver EndScreen = this.GetChildNodeByName<GameOver>("GameOver");
+		EndScreen.Visible = true;
+		EndScreen.EndScreen();
 	}
 
 	private void HandleTooltip()
