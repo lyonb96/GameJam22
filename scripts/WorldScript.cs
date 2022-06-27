@@ -62,7 +62,7 @@ public class WorldScript : Node2D
 		if (challengeRating != null)
 		{
 			PlayerScore += challengeRating.Value;
-			GD.Print("Added " + challengeRating.Value + ". Score is now: " + PlayerScore);
+			//GD.Print("Added " + challengeRating.Value + ". Score is now: " + PlayerScore);
 		}
 	}
 
