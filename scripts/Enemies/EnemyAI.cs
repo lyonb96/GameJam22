@@ -153,21 +153,35 @@ public class EnemyAI : Ship
 			Loot.Position = Position;
 			WorldScript.Instance.AddChild(Loot);
 		}
-		else if((LootRoll > 0.25) && (LootRoll <= 0.375)) {
+		else if((LootRoll > 0.25) && (LootRoll <= 0.3625)) {
 			//Thruster Block
 			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/ThrusterBlock.tscn");
 			ThrusterBlock Loot = LootScene.Instance() as ThrusterBlock;
 			Loot.Position = Position;
 			WorldScript.Instance.AddChild(Loot);
 		}
-		else if((LootRoll > 0.375) && (LootRoll <= 0.5)) {
+		else if((LootRoll > 0.3625) && (LootRoll <= 0.475)) {
+			//Passive Heal Block
+			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/PassiveHeal.tscn");
+			PassiveHealBlock Loot = LootScene.Instance() as PassiveHealBlock;
+			Loot.Position = Position;
+			WorldScript.Instance.AddChild(Loot);
+		}
+		else if((LootRoll > 0.475) && (LootRoll <= 0.5875)) {
+			//Shield Block
+			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/ShieldBlock.tscn");
+			ShieldBlock Loot = LootScene.Instance() as ShieldBlock;
+			Loot.Position = Position;
+			WorldScript.Instance.AddChild(Loot);
+		}
+		else if((LootRoll > 0.5875) && (LootRoll <= 0.7)) {
 			//Laser Cannon Block
 			LootScene = (PackedScene)ResourceLoader.Load("res://scenes/LaserCannonBlock.tscn");
 			LaserCannonBlock Loot = LootScene.Instance() as LaserCannonBlock;
 			Loot.Position = Position;
 			WorldScript.Instance.AddChild(Loot);
 		}
-		else if((LootRoll > 0.5) && (LootRoll <= 1)) {
+		else if((LootRoll > 0.7) && (LootRoll <= 1)) {
 			//Nothing
 		}
 
