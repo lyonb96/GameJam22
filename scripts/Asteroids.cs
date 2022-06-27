@@ -42,6 +42,7 @@ public class Asteroids : RigidBody2D, IDamageable
 		NewExplosion.Position = Position;
 		NewExplosion.GetChildNodeByName<Particles2D>("AsteroidExplosion").Emitting = true;
 		Owner.AddChild(NewExplosion);
+		WorldScript.Instance.PlayerScore += 5;
 		QueueFree();
 	}
 }
