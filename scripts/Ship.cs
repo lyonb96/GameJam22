@@ -373,6 +373,7 @@ public class Ship : ShipBlock, IDamageable
 		explosion.Position = GlobalPosition;
 		explosion.GetChildNodeByName<Particles2D>("ShipExplosion").Emitting = true;
 		explosion.GetChildNodeByName<Particles2D>("AsteroidExplosion").Visible = false;
+		explosion.GetChildNodeByName<Label>("ShipScore").Visible = true;
 		explosion.changeScoreText(this.ShipStats.ChallengeRating);
 
 		WorldScript.AddChild(explosion);
