@@ -118,9 +118,10 @@ public class WorldScript : Node2D
 	private void SpawnNewEnemy()
 	{
 		var crLimit = Mathf.Max((float)PlayerShip.ShipStats.ChallengeRating * 1.2F, 10);
+		var minCr = Mathf.Min(crLimit * 0.5F, 20);
 		// Roll enemies that are less than or up to 20% greater in CR than the player
 		var enemies = EnemyRegistry.Enemies
-			.Where(x => x.Value.ChallengeRating <= crLimit)
+			.Where(x => x.Value.ChallengeRating <= crLimit && x.Value.ChallengeRating >= minCr)
 			.Select(x => x.Key);
 		// Select a random direction to spawn the enemy
 		var random = new Random();

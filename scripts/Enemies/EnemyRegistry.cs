@@ -157,6 +157,347 @@ public static class EnemyRegistry
                     },
                 }
             },
+            ["Crusher"] = new EnemySchema
+            {
+                Name = "Crusher",
+                Parts = new List<EnemyPart>
+                {
+                    // Top layer armor
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(1, 0),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(1, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(1, -1),
+                    },
+                    // Mid layer armor
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(0, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(0, 2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(0, -1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(0, -2),
+                    },
+                    // Back layer armor
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, 2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, 3),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, 4),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, -2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, -3),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, -4),
+                    },
+                    // Tail fins
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-2, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-2, -1),
+                    },
+                    // Thrusters
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-1, 0),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-2, 3),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-2, -3),
+                    },
+                    // Shields
+                    new EnemyPart
+                    {
+                        Type = "Shield",
+                        Position = new Vector2(-1, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Shield",
+                        Position = new Vector2(-1, -1),
+                    },
+                    // Turrets
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(0, 4),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(0, -4),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(2, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(2, -1),
+                    },
+                }
+            },
+            ["Ender"] = new EnemySchema
+            {
+                Name = "Ender",
+                Parts = new List<EnemyPart>
+                {
+                    // Top layer armor
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(1, 0),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(1, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(1, -1),
+                    },
+                    // Mid layer armor
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(0, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(0, -1),
+                    },
+                    // Next layer back
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, 2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, -1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-1, -2),
+                    },
+                    // Next layer
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-2, 2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-2, -2),
+                    },
+                    // Next layer
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-3, -2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-3, 0),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-3, 2),
+                    },
+                    // Second to last armor layer
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-4, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-4, 2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-4, 3),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-4, -1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-4, -2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-4, -3),
+                    },
+                    // Final armor layer
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-5, 3),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-5, 4),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-5, -3),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Armor",
+                        Position = new Vector2(-5, -4),
+                    },
+                    // Shields
+                    new EnemyPart
+                    {
+                        Type = "Shield",
+                        Position = new Vector2(-1, 0),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Shield",
+                        Position = new Vector2(-2, -1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Shield",
+                        Position = new Vector2(-2, 1),
+                    },
+                    // Lasers
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(2, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(2, -1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(0, 2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(0, -2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(-4, 4),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "LaserCannon",
+                        Position = new Vector2(-4, -4),
+                    },
+                    // Thrusters
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-2, 0),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-3, 1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-3, -1),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-5, 2),
+                    },
+                    new EnemyPart
+                    {
+                        Type = "Thruster",
+                        Position = new Vector2(-5, -2),
+                    },
+                }
+            }
         };
         foreach (var enemy in Enemies)
         {
