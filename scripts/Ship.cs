@@ -87,6 +87,8 @@ public class Ship : ShipBlock, IDamageable
 		if (IsPlayer)
 		{
 			WorldScript.PlayerShip = this;
+			// Player gets a little more base hp
+			ShipStats.MaxHealth += 50.0F;
 		}
 		WorldScript.OnBuildModeChanged += OnBuildModeChanged;
 		HoverSprite = this.GetChildNodeByName<Sprite>("HoverSpot");
