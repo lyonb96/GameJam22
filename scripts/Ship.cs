@@ -380,6 +380,10 @@ public class Ship : ShipBlock, IDamageable
 		{
 			WorldScript.OnPlayerDie();
 		}
+		else
+		{
+			WorldScript.OnPlayerDestroyedEnemy(this as EnemyAI);
+		}
 		QueueFree();
 	}
 
