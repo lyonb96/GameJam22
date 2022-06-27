@@ -18,6 +18,8 @@ public class Ship : ShipBlock, IDamageable
 
 	protected float DesiredRotation { get; set; }
 
+	private float TimeSinceLastDamage { get; set; }
+
 	private ShipBlock CurrentDraggedBlock { get; set; }
 
 	private Vector2? DraggedBlockSnapLocation { get; set; }
@@ -59,7 +61,7 @@ public class Ship : ShipBlock, IDamageable
 		{
 			MaxHealth = 100.0F,
 			MaxShield = 0.0F,
-			ShieldRegenRate = 0.0F,
+			ShieldRegenRate = 10.0F,
 			MoveSpeed = 200.0F,
 			Acceleration = 10.0F,
 			RotationRate = 10.0F,
@@ -139,6 +141,7 @@ public class Ship : ShipBlock, IDamageable
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(float delta)
 	{
+		HandleShields(delta);
 		foreach (var weapon in Weapons)
 		{
 			weapon.Update(delta);
@@ -322,6 +325,7 @@ public class Ship : ShipBlock, IDamageable
 
 	public void TakeDamage(float damage)
 	{
+		TimeSinceLastDamage = 0.0F;
 		var remaining = damage;
 		if (Shield > 0)
 		{
@@ -330,6 +334,10 @@ public class Ship : ShipBlock, IDamageable
 			{
 				remaining = -Shield;
 				Shield = 0.0F;
+			}
+			else
+			{
+				return;
 			}
 		}
 		Health -= remaining;
@@ -368,12 +376,20 @@ public class Ship : ShipBlock, IDamageable
 		explosion.changeScoreText(this.ShipStats.ChallengeRating);
 
 		WorldScript.AddChild(explosion);
-		GD.Print("Challenge Rating: " + this.ShipStats.ChallengeRating);
 		if (IsPlayer)
 		{
-			WorldScript.PlayerShip = null;
-			GetTree().GetRoot().GetChildNodeByName<Node2D>("GameOver").Visible = true;
+			WorldScript.OnPlayerDie();
 		}
 		QueueFree();
+	}
+
+	protected void HandleShields(float delta)
+	{
+		TimeSinceLastDamage += delta;
+		if (TimeSinceLastDamage > 8.0F)
+		{
+			var amount = ShipStats.ShieldRegenRate * delta;
+			Shield = Mathf.Min(Shield + amount, ShipStats.MaxShield);
+		}
 	}
 }

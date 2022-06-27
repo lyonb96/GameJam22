@@ -24,7 +24,6 @@ public class PartTooltip : Node2D
             StatLabel.Text = string.Empty;
             return;
         }
-        GD.Print(block.BlockName);
         NameLabel.Text = block.BlockName;
         DescriptionLabel.Text = block.BlockDescription;
         if (block.StatMods != null)
