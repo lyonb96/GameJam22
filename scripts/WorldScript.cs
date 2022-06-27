@@ -34,7 +34,7 @@ public class WorldScript : Node2D
 		// enemy.GlobalPosition = new Vector2(8000.0F, 8000.0F);
 		// enemy.SetSchema("Basic");
 		// AddChild(enemy);
-		TimeSinceLastSpawn = 10.0F;
+		TimeSinceLastSpawn = 5.0F;
 
 		Tooltip = this.GetChildNodeByName<PartTooltip>("Tooltip");
 
@@ -108,9 +108,9 @@ public class WorldScript : Node2D
 			return;
 		}
 		TimeSinceLastSpawn += delta;
-		if (TimeSinceLastSpawn > 20.0F)
+		if (TimeSinceLastSpawn > 15.0F)
 		{
-			TimeSinceLastSpawn -= 20.0F;
+			TimeSinceLastSpawn -= 15.0F;
 			SpawnNewEnemy();
 		}
 	}
