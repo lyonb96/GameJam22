@@ -7,7 +7,7 @@
 [ext_resource path="res://images/Stars.png" type="Texture" id=5]
 [ext_resource path="res://scenes/Asteroid.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/Healthbar.tscn" type="PackedScene" id=7]
-[ext_resource path="res://scenes/Scoreboard.tscn" type="PackedScene" id=8]
+[ext_resource path="res://images/StarryBackground.jpg" type="Texture" id=8]
 [ext_resource path="res://scenes/LaserCannonBlock.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/PartTooltip.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/GameOver.tscn" type="PackedScene" id=11]
@@ -36,25 +36,6 @@ position = Vector2( -510, 187 )
 [node name="GameOver" parent="Camera2D" instance=ExtResource( 11 )]
 visible = false
 position = Vector2( -306, -159 )
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="Camera2D"]
-scroll_base_scale = Vector2( 0.5, 0.5 )
-
-[node name="ColorRect" type="ColorRect" parent="Camera2D/ParallaxBackground"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color( 0.00392157, 0, 0.137255, 1 )
-
-[node name="ParallaxLayer" type="ParallaxLayer" parent="Camera2D/ParallaxBackground"]
-motion_mirroring = Vector2( 1024, 1024 )
-
-[node name="Sprite" type="Sprite" parent="Camera2D/ParallaxBackground/ParallaxLayer"]
-scale = Vector2( 4, 4 )
-texture = ExtResource( 5 )
-centered = false
-
-[node name="Node2D2" parent="Camera2D" instance=ExtResource( 8 )]
-position = Vector2( 326, -297 )
 
 [node name="RigidBody2D7" parent="." instance=ExtResource( 9 )]
 position = Vector2( -221, 59 )
@@ -658,3 +639,29 @@ position = Vector2( 2868, -4289 )
 
 [node name="Asteroid2D200" parent="." instance=ExtResource( 6 )]
 position = Vector2( 4031, -3606 )
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_base_offset = Vector2( 1e+06, 0 )
+scroll_base_scale = Vector2( 0.5, 0.5 )
+
+[node name="ColorRect" type="ColorRect" parent="ParallaxBackground"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.00392157, 0, 0.137255, 1 )
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 0.5 )
+motion_mirroring = Vector2( 2944, 2944 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 8 )
+centered = false
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2( 4096, 4096 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2( 4, 4 )
+texture = ExtResource( 5 )
+centered = false
