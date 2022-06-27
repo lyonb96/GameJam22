@@ -368,11 +368,12 @@ public class Ship : ShipBlock, IDamageable
 		explosion.changeScoreText(this.ShipStats.ChallengeRating);
 
 		WorldScript.AddChild(explosion);
-		GD.Print("Challenge Rating: " + this.ShipStats.ChallengeRating);
 		if (IsPlayer)
 		{
 			WorldScript.PlayerShip = null;
-			GetTree().GetRoot().GetChildNodeByName<Node2D>("GameOver").Visible = true;
+			GameOver EndScreen = GetTree().GetRoot().GetChildNodeByName<GameOver>("GameOver");
+			EndScreen.Visible = true;
+			EndScreen.ChangeScore();
 		}
 		QueueFree();
 	}
