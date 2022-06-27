@@ -7,7 +7,7 @@ public class LaserCannonBlock : WeaponBlock
         Logic = new LaserCannonLogic
         {
             RateOfFire = 0.5F,
-            Damage = 10.0F,
+            Damage = 15.0F,
         };
         StatMods = new PartStatMod
         {

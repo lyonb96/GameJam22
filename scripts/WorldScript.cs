@@ -66,6 +66,12 @@ public class WorldScript : Node2D
 		}
 	}
 
+	public void OnPlayerDie()
+	{
+		PlayerShip = null;
+		this.GetChildNodeByName<Node2D>("GameOver").Visible = true;
+	}
+
 	private void HandleTooltip()
 	{
 		// Check for blocks and stuff

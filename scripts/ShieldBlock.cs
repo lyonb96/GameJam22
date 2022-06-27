@@ -8,7 +8,7 @@ public class ShieldBlock : ShipBlock
         StatMods = new PartStatMod
         {
             MaxShieldMod = new StatBlockModifier { Amount = 50.0F, Mode = StatModMode.Flat },
-            ShieldRegenMod = new StatBlockModifier { Amount = 5.0F, Mode = StatModMode.Percent },
+            ShieldRegenMod = new StatBlockModifier { Amount = 10.0F, Mode = StatModMode.Percent },
         };
         BlockName = "Deflect-o-matic";
         BlockDescription = "Wanna see me deflect some damage? Wanna see me do it again?";
